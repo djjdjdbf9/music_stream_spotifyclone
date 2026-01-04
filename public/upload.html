@@ -1,0 +1,111 @@
+ <!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Загрузить трек - MusicStream</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/upload.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>🎵 MusicStream</h1>
+      </div>
+      <nav>
+        <a href="index.html" class="nav-link">🏠 Главная</a>
+        <a href="#upload" class="nav-link active">⬆️ Загрузить трек</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <h2>Загрузить новый трек</h2>
+      </header>
+
+      <section class="upload-section">
+        <form id="uploadForm" class="upload-form">
+          <div class="form-group">
+            <label for="audioFile">Выберите аудио файл</label>
+            <input type="file" id="audioFile" name="audio" accept="audio/*" required>
+            <div class="file-info" id="fileInfo"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="title">Название трека</label>
+            <input type="text" id="title" name="title" placeholder="Название">
+          </div>
+
+          <div class="form-group">
+            <label for="artist">Исполнитель</label>
+            <input type="text" id="artist" name="artist" placeholder="Исполнитель">
+          </div>
+
+          <div class="form-group">
+            <label for="album">Альбом</label>
+            <input type="text" id="album" name="album" placeholder="Альбом">
+          </div>
+
+          <button type="submit" class="upload-btn">📤 Загрузить трек</button>
+        </form>
+
+        <div id="uploadStatus"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Обработка формы загрузки
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData();
+      const fileInput = document.getElementById('audioFile');
+      const status = document.getElementById('uploadStatus');
+      
+      if (!fileInput.files[0]) {
+        status.innerHTML = '<p style="color: red;">Выберите файл!</p>';
+        return;
+      }
+
+      formData.append('audio', fileInput.files[0]);
+      formData.append('title', document.getElementById('title').value);
+      formData.append('artist', document.getElementById('artist').value);
+      formData.append('album', document.getElementById('album').value);
+
+      try {
+        status.innerHTML = '<p>⏳ Загрузка...</p>';
+        
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          status.innerHTML = `<p style="color: green;">✅ ${result.message}</p>`;
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          status.innerHTML = `<p style="color: red;">❌ Ошибка: ${result.error}</p>`;
+        }
+      } catch (error) {
+        status.innerHTML = `<p style="color: red;">❌ Ошибка сети: ${error.message}</p>`;
+      }
+    });
+
+    // Показать информацию о файле
+    document.getElementById('audioFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const size = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('fileInfo').textContent = 
+          `${file.name} | ${size} MB | ${file.type}`;
+      }
+    });
+  </script>
+</body>
+</html>
