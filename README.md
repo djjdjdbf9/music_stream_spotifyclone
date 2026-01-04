@@ -9,8 +9,8 @@
 
 1. Склонируй репозиторий (или просто распакуй архив):
    ```bash
-   git clone https://github.com/djjdjdbf9/spotify-clone.git
-   cd spotify-clone
+   https://github.com/djjdjdbf9/music_stream_spotifyclone.git
+   cd music_stream_spotifyclone
    ```
 
 2. Установи зависимости (нужен Node.js ≥ 14):
@@ -25,7 +25,7 @@
    Увидишь примерно такое:
    ```
    🎵 Сервер запущен на http://localhost:3000
-   📁 Загрузка треков: .../spotify-clone/public/uploads
+   📁 Загрузка треков: .../music_stream_spotifyclone/public/uploads
    ```
 
 4. Открывай браузер и переходи на [http://localhost:3000](http://localhost:3000) — всё, музыка у тебя дома.
@@ -60,7 +60,7 @@
 ## 📁 Структура
 
 ```
-spotify-clone/
+music_stream_spotifyclone/
 ├── server.js          # сервер на Express
 ├── database.js        # SQLite-штука
 ├── public/            # frontend
