@@ -9,7 +9,7 @@
 
 1. Склонируй репозиторий (или просто распакуй архив):
    ```bash
-   git clone https://github.com/YOU/spotify-clone.git
+   git clone https://github.com/djjdjdbf9/spotify-clone.git
    cd spotify-clone
    ```
 
